@@ -2,10 +2,18 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  useSelector,
+  useDispatch,
+  editTodo,
+  removeTodo,
+  toggleDone,
+} from '../reducers';
 
-Icon.loadFont();
+const TodoItem = ({mode, todo}) => {
+  mode = mode || useSelector(store => store.todos.mode);
+  const dispatch = useDispatch();
 
-const TodoItem = ({todo}) => {
   return (
     <TouchableOpacity>
       <View style={styles.todoItem}>
@@ -16,13 +24,39 @@ const TodoItem = ({todo}) => {
           }}>
           {todo.title}
         </Text>
-        <Icon
-          name="check"
-          style={{
-            ...styles.todoIcon,
-            ...(todo.done ? styles.todoDonIcon : {}),
-          }}
-        />
+        {mode === 'view' && (
+          <TouchableOpacity onPress={() => dispatch(toggleDone(todo.id))}>
+            <Icon
+              name="check"
+              style={{
+                ...styles.todoIcon,
+                ...(todo.done ? styles.todoDonIcon : {}),
+              }}
+            />
+          </TouchableOpacity>
+        )}
+        {mode === 'edit' && (
+          <>
+            <TouchableOpacity onPress={() => dispatch(editTodo(todo))}>
+              <Icon
+                name="pencil"
+                style={{
+                  ...styles.todoIcon,
+                  ...(todo.done ? styles.todoDonIcon : {}),
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => dispatch(removeTodo(todo.id))}>
+              <Icon
+                name="close"
+                style={{
+                  ...styles.todoIcon,
+                  ...(todo.done ? styles.todoDonIcon : {}),
+                }}
+              />
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -50,7 +84,7 @@ const styles = StyleSheet.create({
   },
   todoIcon: {
     fontSize: 24,
-    marginRight: 5,
+    marginRight: 15,
   },
   todoDonIcon: {
     color: '#339933',
@@ -58,6 +92,7 @@ const styles = StyleSheet.create({
 });
 
 TodoItem.defaultProps = {
+  mode: null,
   todo: {
     title: '',
     done: false,

@@ -5,12 +5,16 @@ import TodoListScreen from '../screens/TodoListScreen';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector, useDispatch, changeMode} from '../reducers';
 
 const TodoStack = createStackNavigator();
 
 Icon.loadFont();
 
 const TodoStackScreen = () => {
+  const mode = useSelector(store => store.todos.mode);
+  const dispatch = useDispatch();
+
   return (
     <TodoStack.Navigator>
       <TodoStack.Screen
@@ -23,8 +27,13 @@ const TodoStackScreen = () => {
           headerTintColor: '#fff',
           title: '내가 할 일',
           headerRight: () => (
-            <TouchableOpacity>
-              <Icon name="note" style={styles.headerIcon} />
+            <TouchableOpacity onPress={() => dispatch(changeMode())}>
+              {mode === 'view' && (
+                <Icon name="note" style={styles.headerIcon} />
+              )}
+              {mode === 'edit' && (
+                <Icon name="arrow-down" style={styles.headerIcon} />
+              )}
             </TouchableOpacity>
           ),
         }}

@@ -3,17 +3,11 @@ import {View, Text, StyleSheet} from 'react-native';
 import TodoInput from '../components/TodoInput';
 import {FlatList} from 'react-native-gesture-handler';
 import TodoItem from '../components/TodoItem';
+import {useSelector} from 'react-redux';
 
-const list = [];
-for (let i = 1; i < 30; i++) {
-  list.push({
-    id: '' + i,
-    title: '할일 ' + i,
-    done: false,
-  });
-}
+const TodoListScreen = ({todos}) => {
+  const list = todos || useSelector(store => store.todos.list);
 
-const TodoListScreen = () => {
   return (
     <View style={styles.todolist}>
       <TodoInput />
