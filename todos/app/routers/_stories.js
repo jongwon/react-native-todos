@@ -2,18 +2,14 @@ import React from 'react';
 
 import {storiesOf} from '@storybook/react-native';
 import TodoStackScreen from './TodoStackScreen';
-import {NavigationContainer} from '@react-navigation/native';
 
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import reducers from '../reducers';
-
-const store = createStore(reducers);
+import {withProvider, store, withNavigationContainer} from '../StoreDecorator';
+import {clear} from '../reducers';
 
 storiesOf('routers/TodoStackScreen', module)
-  .addDecorator(getStory => (
-    <Provider store={store}>
-      <NavigationContainer>{getStory()}</NavigationContainer>
-    </Provider>
-  ))
+  .addDecorator(getStory => {
+    store.dispatch(clear());
+    return withProvider(store)(getStory);
+  })
+  .addDecorator(withNavigationContainer)
   .add('TodoStackScreen ', () => <TodoStackScreen />);

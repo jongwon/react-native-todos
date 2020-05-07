@@ -10,8 +10,8 @@ import {
   toggleDone,
 } from '../reducers';
 
-const TodoItem = ({mode, todo}) => {
-  mode = mode || useSelector(store => store.todos.mode);
+const TodoItem = ({todo}) => {
+  const mode = useSelector(store => store.todos.mode);
   const dispatch = useDispatch();
 
   return (
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
 });
 
 TodoItem.defaultProps = {
-  mode: null,
   todo: {
     title: '',
     done: false,

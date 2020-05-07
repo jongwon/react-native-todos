@@ -12,11 +12,11 @@ import reducers from './app/reducers';
 SimpleLineIcons.loadFont();
 FontAwesome.loadFont();
 
-const useStylebook = false;
+const useStorybook = false;
 const store = createStore(reducers);
 
 let App = null;
-if (useStylebook) {
+if (useStorybook) {
   App = require('./storybook').default;
 } else {
   App = () => {

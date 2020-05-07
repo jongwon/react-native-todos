@@ -30,7 +30,6 @@ const TodoInput = () => {
         }),
       );
     }
-    console.log(value);
     setValue('');
   };
   return (
@@ -39,6 +38,7 @@ const TodoInput = () => {
         value={value}
         onChangeText={text => setValue(text)}
         onSubmitEditing={onSubmit}
+        placeholder="할일을 입력해 주세요..."
         rightIcon={{type: 'font-awesome', name: 'chevron-right'}}
       />
     </View>
